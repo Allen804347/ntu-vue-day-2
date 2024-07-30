@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://unpkg.com/vue@3.4.34/dist/vue.global.js"></script>
+  
+</head>
+<body>
+  <div id="app">
+    <h1>Drink Menu</h1>
+    <ul>
+      <li v-for="drink in drinks" :key="drink.id">
+        <h2 @click="selectDrink(drink)">{{ drink.name }} - ${{ drink.price }}</h2>
+        <div v-if="selectedDrink && selectedDrink.id === drink.id">
+          <p>{{ drink.description }}</p>
+          <button @click="deselectDrink">Hide Details</button>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <script>
+    const { createApp, ref } = Vue;
+
+    createApp({
+      setup() {
+        const drinks = ref([
+          { id: 1, name: 'Bubble Tea', price: 4, description: 'A sweet and refreshing tea with tapioca pearls.' },
+          { id: 2, name: 'Milkshake', price: 5, description: 'A creamy and delicious milkshake with various flavors.' },
+          { id: 3, name: 'Smoothie', price: 6, description: 'A healthy and fruity smoothie with fresh ingredients.' }
+        ]);
+
+        const selectedDrink = ref(null);
+
+        const selectDrink = (drink) => {
+          selectedDrink.value = drink;
+        };
+
+        const deselectDrink = () => {
+          selectedDrink.value = null;
+        };
+
+        return {
+          drinks,
+          selectedDrink,
+          selectDrink,
+          deselectDrink
+        };
+      },
+      data() {}
+    }).mount('#app');
+  </script>
+</body>
+</html>
